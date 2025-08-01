@@ -6,53 +6,26 @@ import { ClientRequest, request, RequestOptions } from "http";
 export interface DeviceInfoResponse {
     response_code: number;
     model_name: string;
-    //destination: string;
-    //device_id: string;
-    //system_id: string;
     system_version: number;
     api_version: number;
-    //netmodule_generation: number;
-    //netmodule_version: string;
-    //netmodule_checksum: string;
     serial_number: string;
-    //category_code: number;
-    //operation_mode: string;
-    //update_error_code: string;
-    //update_data_type: number;
 }
 export interface FeatureResponse {
     response_code: number;
-    //system: System;
     zone: ZoneEntity[];
-    //tuner: Tuner;
-    //netusb: Netusb;
-    //distribution: Distribution;
-    //ccs: Ccs;
 }
 export interface PlayInfoResponse {
     response_code: number;
     input: string;
-    //play_queue_type: string;
     playback: string;
-    //repeat: string;
-    //shuffle: string;
     play_time: number;
-    //total_time: number;
     artist: string;
     album: string;
     track: string;
-    //albumart_url: string;
-    //albumart_id: number;
-    //usb_devicetype: string;
-    //auto_stopped: boolean;
-    //attribute: number;
-    //repeat_available?: (null)[] | null;
-    //shuffle_available?: (null)[] | null;
 }
 export interface PresetInfoResponse {
     response_code: number;
     preset_info: PresetInfo[];
-    //func_list?: (string)[] | null;
 }
 interface PresetInfo {
     identifier: number,
@@ -60,7 +33,6 @@ interface PresetInfo {
     input: string;
     text: string;
     displayText: string;
-    //attribute?: number | null;
 }
 interface Response {
     response_code: number;
@@ -68,7 +40,6 @@ interface Response {
 export interface StatusResponse {
     response_code: number;
     power: string;
-    //sleep: number;
     volume: number;
     mute: boolean;
     max_volume: number;
@@ -76,36 +47,12 @@ export interface StatusResponse {
     input_text: string;
     distribution_enable: boolean;
     sound_program: string;
-    //surr_decoder_type: string;
-    //direct: boolean;
-    //enhancer: boolean;
-    //tone_control: ToneControl;
-    //dialogue_level: number;
-    //subwoofer_volume: number;
-    //link_control: string;
     link_audio_delay: string;
-    //disable_flags: number;
-    //contents_display: boolean;
-    //actual_volume: ActualVolume;
-    //extra_bass: boolean;
-    //adaptive_drc: boolean;
 }
 interface ZoneEntity {
     id: string;
-    //func_list?: (string)[] | null;
-    //input_list?: (string)[] | null;
     sound_program_list?: (string)[];
-    //surr_decoder_type_list?: (string)[] | null;
-    //tone_control_mode_list?: (string)[] | null;
-    //link_control_list?: (string)[] | null;
     link_audio_delay_list?: (string)[];
-    //range_step?: (RangeStepEntity)[] | null;
-    //scene_num?: number | null;
-    //cursor_list?: (string)[] | null;
-    //menu_list?: (string)[] | null;
-    //actual_volume_mode_list?: (string)[] | null;
-    //ccs_supported?: (string)[] | null;
-    //zone_b?: boolean | null;
 }
 interface ServerInfoRequest {
     group_id: string;
@@ -152,6 +99,7 @@ export class YamahaAPI {
                 const req: ClientRequest = request(url, options);
                 req.on('error', (error) => {
                     this.log.error("httpRequest error", error);
+                    reject(error);
                 });
                 if (postData) {
                     req.write(postData);
@@ -164,9 +112,14 @@ export class YamahaAPI {
                         data += chunk;
                     });
                     response.on('end', () => {
-                        const result = JSON.parse(data);
-                        this.log.debug("httpRequest result", result);
-                        resolve(result);
+                        try {
+                            const result = JSON.parse(data);
+                            this.log.debug("httpRequest result", result);
+                            resolve(result);
+                        } catch(e) {
+                            this.log.error("Failed to parse JSON response:", data);
+                            reject(e);
+                        }
                     });
                 });
             });
@@ -242,6 +195,12 @@ export class YamahaAPI {
 
     public async setVolume(host: string, volume: number): Promise<Response> {
         const url = 'http://' + host + '/YamahaExtendedControl/v1/' + this.zone + '/setVolume?volume=' + volume;
+        return this.httpRequest(url).then(result => result as Response);
+    }
+
+    // AJOUTÉ : Méthode pour contrôler le Mute
+    public async setMute(host: string, mute: boolean): Promise<Response> {
+        const url = `http://${host}/YamahaExtendedControl/v1/${this.zone}/setMute?enable=${mute}`;
         return this.httpRequest(url).then(result => result as Response);
     }
 

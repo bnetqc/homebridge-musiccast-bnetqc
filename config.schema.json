@@ -18,46 +18,40 @@
                 "type": "object",
                 "properties": {
                     "host": {
-                        "title": "IP address/hostname",
-                        "description": "The IP address or hostname of your Yamaha Receiver (or your main MusicCast device) who will serve music to the clients.",
+                        "title": "IP address/hostname (Server)",
+                        "description": "The IP address or hostname of your Yamaha Receiver (or your main MusicCast device).",
                         "type": "string",
                         "required": true,
                         "default": "192.0.2.11"
                     },
-                    "volumePercentageLow": {
-                        "title": "Lower volume limit (0-100%)",
-                        "description": "Recommended: 25 (Volume can be adjusted in 6 steps between low and high.)",
+                    "volumeMin": {
+                        "title": "Minimum Volume",
+                        "description": "The minimum volume value for your amplifier's scale.",
                         "type": "number",
-                        "required": true,
-                        "minimum": 0,
-                        "maximum": 100,
-                        "default": "25"
+                        "default": 0
                     },
-                    "volumePercentageHigh": {
-                        "title": "Upper volume limit (0-100%)",
-                        "description": "Recommended: 65 (Volume can be adjusted in 6 steps between low and high.)",
+                    "volumeMax": {
+                        "title": "Maximum Volume",
+                        "description": "The maximum volume value for your amplifier's scale.",
                         "type": "number",
-                        "required": true,
-                        "minimum": 0,
-                        "maximum": 100,
-                        "default": "65"
+                        "default": 80
                     },
                     "inputs": {
                         "title": "Inputs",
-                        "description": "All favorite presets (set on the server with the MusicCast app) will automatically be available as inputs. Do you want additional input sources to be available?",
+                        "description": "Additional input sources to be available.",
                         "type": "array",
                         "items": {
                             "type": "object",
                             "properties": {
                                 "input": {
-                                    "title": "Input",
+                                    "title": "Input ID",
                                     "description": "For example 'hdmi1', 'airplay' etc.",
                                     "type": "string",
                                     "required": true,
                                     "default": "hdmi1"
                                 },
                                 "name": {
-                                    "title": "Name",
+                                    "title": "Input Name",
                                     "description": "For example 'TV', 'Airplay' etc.",
                                     "type": "string",
                                     "required": true,
@@ -70,35 +64,29 @@
             },
             "clients": {
                 "title": "Clients",
-                "description": "The IP addresses of your Yamaha speakers (or other MusicCast devices) who will be connected to the server.",
+                "description": "The IP addresses of your other MusicCast devices.",
                 "type": "array",
                 "items": {
                     "type": "object",
                     "properties": {
                         "host": {
-                            "title": "IP address/hostname",
+                            "title": "IP address/hostname (Client)",
                             "description": "IP address or hostname",
                             "type": "string",
                             "required": true,
                             "default": "192.0.2.22"
                         },
-                        "volumePercentageLow": {
-                            "title": "Lower volume limit (0-100%)",
-                            "description": "Recommended: 25 (Volume can be adjusted in 6 steps between low and high.)",
+                        "volumeMin": {
+                            "title": "Minimum Volume",
+                            "description": "The minimum volume value for the client device's scale.",
                             "type": "number",
-                            "required": true,
-                            "minimum": 0,
-                            "maximum": 100,
-                            "default": "25"
+                            "default": 0
                         },
-                        "volumePercentageHigh": {
-                            "title": "Upper volume limit (0-100%)",
-                            "description": "Recommended: 65 (Volume can be adjusted in 6 steps between low and high.)",
+                        "volumeMax": {
+                            "title": "Maximum Volume",
+                            "description": "The maximum volume value for the client device's scale.",
                             "type": "number",
-                            "required": true,
-                            "minimum": 0,
-                            "maximum": 100,
-                            "default": "65"
+                            "default": 80
                         }
                     }
                 }

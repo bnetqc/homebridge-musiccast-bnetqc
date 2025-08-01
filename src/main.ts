@@ -21,15 +21,15 @@ interface MusiccastMultiroomConfig {
     name: string;
     server: {
         host: string;
-        volumePercentageLow?: number;
-        volumePercentageHigh?: number;
         inputs: InputConfig[];
         presetInfoRegex?: string;
+        volumeMin?: number;
+        volumeMax?: number;
     };
     clients: {
         host: string;
-        volumePercentageLow?: number;
-        volumePercentageHigh?: number;
+        volumeMin?: number;
+        volumeMax?: number;
     }[];
 }
 
@@ -40,7 +40,7 @@ class MusiccastMultiroom implements IndependentPlatformPlugin {
         var presetInfoRegex: RegExp | undefined;
         if (config.server.presetInfoRegex !== undefined) {
             try {
-                presetInfoRegex = new RegExp(config.server.presetInfoRegex, 'g'); //g
+                presetInfoRegex = new RegExp(config.server.presetInfoRegex, 'g');
             } catch (error) {
                 log.info('invalid regex', error);
             }
@@ -49,18 +49,14 @@ class MusiccastMultiroom implements IndependentPlatformPlugin {
         try {
             var serverConfig: Config = {
                 host: config.server.host,
-                inputs: config.server.inputs
+                inputs: config.server.inputs,
+                volumeMin: config.server.volumeMin,
+                volumeMax: config.server.volumeMax
             };
             if (config.clients !== undefined) {
                 serverConfig.clients = config.clients.map(item => item.host);
             } else {
                 serverConfig.clients = [];
-            }
-            if (config.server.volumePercentageLow !== undefined) {
-                serverConfig.volumePercentageLow = config.server.volumePercentageLow;
-            }
-            if (config.server.volumePercentageHigh !== undefined) {
-                serverConfig.volumePercentageHigh = config.server.volumePercentageHigh;
             }
         } catch (error) {
             log.error("invalid config", error);
@@ -75,13 +71,9 @@ class MusiccastMultiroom implements IndependentPlatformPlugin {
                 for (let client of config.clients) {
                     var clientConfig: Config = {
                         host: client.host,
-                        serverDevice: serverDevice
-                    }
-                    if (client.volumePercentageLow !== undefined) {
-                        clientConfig.volumePercentageLow = client.volumePercentageLow;
-                    }
-                    if (client.volumePercentageHigh !== undefined) {
-                        clientConfig.volumePercentageHigh = client.volumePercentageHigh;
+                        serverDevice: serverDevice,
+                        volumeMin: client.volumeMin,
+                        volumeMax: client.volumeMax,
                     }
                     devices.push(new YamahaDevice(clientConfig, api, cache, log, yamahaApi));
                 }
