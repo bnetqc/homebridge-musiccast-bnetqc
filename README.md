@@ -36,7 +36,7 @@ Configuration:
 
 The current Apple Home app doesn't really support volume for speakers and receivers, a fan is "misused" to adjust volume.
 
-<img src="https://github.com/bnetqc/homebridge-musiccast-bnetqc/blob/b53e5f2e59ee670f18619b57c7e568079b2e9f98/homekit-screenshot-volume-fan.jpg" width="550">
+<img src="https://github.com/bnetqc/homebridge-musiccast-bnetqc/blob/b53e5f2e59ee670f18619b57c7e568079b2e9f98/homekit-screenshot-volume-fan.jpg" width="300">
 
 Lower and upper volume limits can be adjusted in the settings for each device. Something like 25% (lower limit) to 65% (upper limit) is probably reasonable for most environments.
 
