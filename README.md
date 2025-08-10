@@ -1,6 +1,6 @@
 # Homebridge Yamaha MusicCast Multiroom Plugin with precise volume control 
 
-This Plug-in is based on cgierke work. i just tweak the code so that a fan can be used to controle the amp volume instead of input.
+This Plug-in is based on cgierke work. I just tweaked the code so that a fan can be used to controle the amp volume instead of input.
 
 Official MusicCast support in Apple HomeKit is limited. This plugin provides quick access to favorite presets, input source selection and power/volume control within the Apple Home app. Speakers will always be linked to their MusicCast server.
 
