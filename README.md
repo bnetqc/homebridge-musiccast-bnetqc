@@ -38,24 +38,21 @@ The current Apple Home app doesn't really support volume for speakers and receiv
 
 <img src="https://github.com/bnetqc/homebridge-musiccast-bnetqc/blob/b53e5f2e59ee670f18619b57c7e568079b2e9f98/homekit-screenshot-volume-fan.jpg" width="300">
 
-Lower and upper volume limits can be adjusted in the settings for each device. Something like 25% (lower limit) to 65% (upper limit) is probably reasonable for most environments.
+volume range can be adjusted in the settings for each device. input the minimum and maximum volume in numbers that you want. 
 
 ```
 {
-    "server": {
-        ...
-        "volumePercentageLow": 25,
-        "volumePercentageHigh": 65,
-        ...
-    },
-    "clients": [
-        {
-            ...
-            "volumePercentageLow": 30,
-            "volumePercentageHigh": 65
-        }
-    ],
-    "platform": "MusiccastMultiroom"
+  "volumeMin": {
+                        "title": "Minimum Volume",
+                        "description": "The minimum volume value for your amplifier's scale.",
+                        "type": "number",
+                        "default": 0
+                    },
+"volumeMax": {
+                        "title": "Maximum Volume",
+                        "description": "The maximum volume value for your amplifier's scale.",
+                        "type": "number",
+                        "default": 80
 }
 ```
 
