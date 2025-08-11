@@ -16,10 +16,17 @@
         "node": "^18.17.0 || ^20.9.0 || ^22.0.0"
     },
     "keywords": [
+<<<<<<< HEAD
         "homebridge-plugin",
         "homebridge",
         "MusicCast",
         "yamaha",
+=======
+        "homebridge-plugin" 
+        "homebridge" 
+        "MusicCast"
+        "yamaha" 
+>>>>>>> 1780830ac817206a9e7d7db7fc5cbe4e66ba28e6
         "homekit"
     ],
     "files": [
