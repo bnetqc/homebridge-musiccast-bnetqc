@@ -1,4 +1,6 @@
-# Homebridge Yamaha MusicCast Multiroom Plugin [![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
+# Homebridge Yamaha MusicCast Multiroom Plugin with precise volume control 
+
+This Plug-in is based on cgierke work. I just tweaked the code so that a fan can be used to controle the amp volume instead of input.
 
 Official MusicCast support in Apple HomeKit is limited. This plugin provides quick access to favorite presets, input source selection and power/volume control within the Apple Home app. Speakers will always be linked to their MusicCast server.
 
@@ -32,28 +34,25 @@ Configuration:
 
 ## Volume
 
-The current Apple Home app doesn't really support volume for speakers and receivers, so the source selector is "misused" to quickly adjust volume in 6 steps.
+The current Apple Home app doesn't really support volume for speakers and receivers, a fan is "misused" to adjust volume.
 
-<img src="https://gitlab.com/cgierke/homebridge-musiccast/raw/main/homekit-screenshot-volume.png" width="550">
+<img src="https://github.com/bnetqc/homebridge-musiccast-bnetqc/blob/b53e5f2e59ee670f18619b57c7e568079b2e9f98/homekit-screenshot-volume-fan.jpg" width="300">
 
-Lower and upper volume limits can be adjusted in the settings for each device. Something like 25% (lower limit) to 65% (upper limit) is probably reasonable for most environments.
+volume range can be adjusted in the settings for each device. input the minimum and maximum volume in numbers that you want. 
 
 ```
 {
-    "server": {
-        ...
-        "volumePercentageLow": 25,
-        "volumePercentageHigh": 65,
-        ...
-    },
-    "clients": [
-        {
-            ...
-            "volumePercentageLow": 30,
-            "volumePercentageHigh": 65
-        }
-    ],
-    "platform": "MusiccastMultiroom"
+  "volumeMin": {
+                        "title": "Minimum Volume",
+                        "description": "The minimum volume value for your amplifier's scale.",
+                        "type": "number",
+                        "default": 0
+                    },
+"volumeMax": {
+                        "title": "Maximum Volume",
+                        "description": "The maximum volume value for your amplifier's scale.",
+                        "type": "number",
+                        "default": 80
 }
 ```
 
