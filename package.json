@@ -1,14 +1,14 @@
 {
     "name": "homebridge-musiccast-bnetqc",
-    "version": "0.1.1",
+    "version": "0.1.5b",
     "description": "Homebridge Yamaha MusicCast Multiroom Plugin with precise volume control",
     "main": "dist/main.js",
     "scripts": {
-        "clean": "rimraf ./dist",
-        "build": "rimraf ./dist && tsc",
-        "prepublishOnly": "npm run build",
-        "postpublish": "npm run clean",
-        "test": "echo \"Error: no test specified\" && exit 1"
+      "clean": "rimraf ./dist",
+      "build": "rimraf ./dist && tsc",
+      "prepublishOnly": "npm run build",
+      "postpublish": "npm run clean",
+      "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Olivier Bientte <olivierb.net@gmail.com> base on the work of Christian Gierke <christian@gierke.de>",
     "engines": {
@@ -16,17 +16,10 @@
         "node": "^18.17.0 || ^20.9.0 || ^22.0.0"
     },
     "keywords": [
-<<<<<<< HEAD
         "homebridge-plugin",
         "homebridge",
         "MusicCast",
         "yamaha",
-=======
-        "homebridge-plugin" 
-        "homebridge" 
-        "MusicCast"
-        "yamaha" 
->>>>>>> 1780830ac817206a9e7d7db7fc5cbe4e66ba28e6
         "homekit"
     ],
     "files": [

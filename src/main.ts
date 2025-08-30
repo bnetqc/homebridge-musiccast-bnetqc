@@ -9,7 +9,7 @@ import { YamahaAPI } from "./YamahaAPI";
 import { Config, InputConfig, YamahaDevice } from "./YamahaDevice";
 import crypto from "crypto";
 
-const PLUGIN_NAME = "homebridge-musiccast-multiroom";
+const PLUGIN_NAME = "homebridge-musiccast-bnetqc";
 const PLATFORM_NAME = "MusiccastMultiroom";
 
 export = (api: API) => {
@@ -25,8 +25,10 @@ interface MusiccastMultiroomConfig {
         presetInfoRegex?: string;
         volumeMin?: number;
         volumeMax?: number;
+        showVolumeAccessory?: boolean; // AJOUTÉ
+        showVolumeStepSwitches?: boolean;
     };
-    clients: {
+    clients?: {
         host: string;
         volumeMin?: number;
         volumeMax?: number;
@@ -51,9 +53,11 @@ class MusiccastMultiroom implements IndependentPlatformPlugin {
                 host: config.server.host,
                 inputs: config.server.inputs,
                 volumeMin: config.server.volumeMin,
-                volumeMax: config.server.volumeMax
+                volumeMax: config.server.volumeMax,
+                showVolumeAccessory: config.server.showVolumeAccessory, // AJOUTÉ
+                showVolumeStepSwitches: config.server.showVolumeStepSwitches
             };
-            if (config.clients !== undefined) {
+            if (config.clients) {
                 serverConfig.clients = config.clients.map(item => item.host);
             } else {
                 serverConfig.clients = [];
@@ -66,7 +70,8 @@ class MusiccastMultiroom implements IndependentPlatformPlugin {
         const yamahaApi = new YamahaAPI(log, groupId, presetInfoRegex);
         const serverDevice = new YamahaDevice(serverConfig, api, cache, log, yamahaApi);
         devices.push(serverDevice);
-        if (config.clients !== undefined) {
+
+        if (config.clients) {
             try {
                 for (let client of config.clients) {
                     var clientConfig: Config = {
@@ -74,6 +79,7 @@ class MusiccastMultiroom implements IndependentPlatformPlugin {
                         serverDevice: serverDevice,
                         volumeMin: client.volumeMin,
                         volumeMax: client.volumeMax,
+                        showVolumeAccessory: true // Les clients ont toujours un accessoire de volume
                     }
                     devices.push(new YamahaDevice(clientConfig, api, cache, log, yamahaApi));
                 }

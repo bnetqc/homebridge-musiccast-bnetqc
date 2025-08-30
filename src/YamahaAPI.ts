@@ -198,7 +198,12 @@ export class YamahaAPI {
         return this.httpRequest(url).then(result => result as Response);
     }
 
-    // AJOUTÉ : Méthode pour contrôler le Mute
+    // AJOUTÉ : Méthode pour monter/descendre le volume
+    public async stepVolume(host: string, direction: 'up' | 'down'): Promise<Response> {
+        const url = `http://${host}/YamahaExtendedControl/v1/${this.zone}/setVolume?volume=${direction}`;
+        return this.httpRequest(url).then(result => result as Response);
+    }
+
     public async setMute(host: string, mute: boolean): Promise<Response> {
         const url = `http://${host}/YamahaExtendedControl/v1/${this.zone}/setMute?enable=${mute}`;
         return this.httpRequest(url).then(result => result as Response);
