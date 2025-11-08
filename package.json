@@ -1,6 +1,6 @@
 {
     "name": "homebridge-musiccast-bnetqc",
-    "version": "0.1.5b",
+    "version": "0.1.6",
     "description": "Homebridge Yamaha MusicCast Multiroom Plugin with precise volume control",
     "main": "dist/main.js",
     "scripts": {

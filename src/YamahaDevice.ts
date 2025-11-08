@@ -348,12 +348,20 @@ export class YamahaDevice {
         this.addServiceAccessoryInformation(accessory);
 
         service.getCharacteristic(this.api.hap.Characteristic.On)
-            .onGet(async () => !this.getCurrentMuteStatus())
+            .onGet(async () => {
+                if (!this.getCurrentPowerSwitchStatus()) {
+                    return false;
+                }
+                return !this.getCurrentMuteStatus();
+            })
             .on(this.api.hap.CharacteristicEventTypes.SET, (value: CharacteristicValue, callback: CharacteristicSetCallback) => {
                 callback(null);
                 (async () => {
-                    await this.setMute(!value as boolean);
-                    this.cache.ping(this.getHost(), undefined, true);
+                    // Only allow mute control when amp is on
+                    if (this.getCurrentPowerSwitchStatus()) {
+                        await this.setMute(!value as boolean);
+                        this.cache.ping(this.getHost(), undefined, true);
+                    }
                 })();
             });
 
@@ -444,12 +452,20 @@ export class YamahaDevice {
         if (this.config.showVolumeAccessory !== false) {
             volumeService = accessory.addService(this.api.hap.Service.Fan, 'Volume', 'volume-fan-service');
             volumeService.getCharacteristic(this.api.hap.Characteristic.On)
-                .onGet(async () => !this.getCurrentMuteStatus())
+                .onGet(async () => {
+                    if (!this.getCurrentPowerSwitchStatus()) {
+                        return false;
+                    }
+                    return !this.getCurrentMuteStatus();
+                })
                 .on(this.api.hap.CharacteristicEventTypes.SET, (value: CharacteristicValue, callback: CharacteristicSetCallback) => {
                     callback(null);
                     (async () => {
-                        await this.setMute(!value as boolean);
-                        this.cache.ping(this.getHost(), undefined, true);
+                        // Only allow mute control when amp is on
+                        if (this.getCurrentPowerSwitchStatus()) {
+                            await this.setMute(!value as boolean);
+                            this.cache.ping(this.getHost(), undefined, true);
+                        }
                     })();
                 });
 
